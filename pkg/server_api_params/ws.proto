@@ -52,7 +52,7 @@ message GroupMemberFullInfo {
   int32 joinSource = 8;
   string operatorUserID = 9;
   string ex = 10;
-  int32 isRobot =11;
+  int32 isRobot =11; 
   uint32 muteEndTime = 12;
   string inviterUserID = 13;
 }
