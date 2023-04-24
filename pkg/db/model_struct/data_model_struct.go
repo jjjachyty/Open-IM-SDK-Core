@@ -165,6 +165,7 @@ type LocalGroupMember struct {
 	MuteEndTime    uint32 `gorm:"column:mute_end_time;default:0" json:"muteEndTime"`
 	OperatorUserID string `gorm:"column:operator_user_id;type:varchar(64)" json:"operatorUserID"`
 	Ex             string `gorm:"column:ex;type:varchar(1024)" json:"ex"`
+	IsRobot        int8   `gorm:"column:is_robot"`
 	AttachedInfo   string `gorm:"column:attached_info;type:varchar(1024)" json:"attachedInfo"`
 }
 
