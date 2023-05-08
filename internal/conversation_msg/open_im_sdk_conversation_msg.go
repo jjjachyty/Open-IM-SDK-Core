@@ -19,12 +19,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/golang/protobuf/proto"
-	"github.com/jinzhu/copier"
-	imgtype "github.com/shamsher31/goimgtype"
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
+
+	"github.com/golang/protobuf/proto"
+	"github.com/jinzhu/copier"
+	imgtype "github.com/shamsher31/goimgtype"
 )
 
 func (c *Conversation) GetAllConversationList(callback open_im_sdk_callback.Base, operationID string) {
@@ -753,6 +754,7 @@ func (c *Conversation) SendMessage(callback open_im_sdk_callback.SendMsgCallBack
 			case constant.Card:
 			case constant.Face:
 			case constant.AdvancedText:
+			case constant.Living:
 			default:
 				common.CheckAnyErrCallback(callback, 202, errors.New("contentType not currently supported"+utils.Int32ToString(s.ContentType)), operationID)
 			}
@@ -1020,6 +1022,7 @@ func (c *Conversation) SendMessageByBuffer(callback open_im_sdk_callback.SendMsg
 			case constant.Card:
 			case constant.Face:
 			case constant.AdvancedText:
+			case constant.Living:
 			default:
 				common.CheckAnyErrCallback(callback, 202, errors.New("contentType not currently supported"+utils.Int32ToString(s.ContentType)), operationID)
 			}

@@ -12,7 +12,7 @@ var LogName = ""
 var ReliabilityUserA = 1234567
 var ReliabilityUserB = 1234567
 var (
-	TESTIP = "121.5.182.23"
+	TESTIP = "127.0.0.1"
 	//TESTIP              = "121.37.25.71"
 
 	//TESTIP  = "open-im-test.rentsoft.cn"
@@ -21,7 +21,7 @@ var (
 	WSADDR              = "ws://" + TESTIP + ":10001"
 	REGISTERADDR        = APIADDR + "/auth/user_register"
 	TOKENADDR           = APIADDR + "/auth/user_token"
-	SECRET              = "tuoyuntuoyun"
+	SECRET              = "tuoyun"
 	SENDINTERVAL        = 20
 	GETSELFUSERINFO     = APIADDR + "/user/get_self_user_info"
 	CREATEGROUP         = APIADDR + constant.CreateGroupRouter

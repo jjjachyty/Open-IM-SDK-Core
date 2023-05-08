@@ -109,9 +109,9 @@ func SetTestGroupID(groupID, memberID string) {
 	TestgroupID = groupID
 }
 
-var MemberUserID = "2101502031"
-var me = "3984071717"
-var TestgroupID = "3109164461"
+var MemberUserID = "1197740020"
+var me = "1517936073"
+var TestgroupID = "1723413319"
 
 func DoTestCreateGroup() {
 	var test testCreateGroup

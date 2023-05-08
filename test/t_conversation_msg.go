@@ -110,7 +110,7 @@ func DoTestSetMessageReactionExtensions() {
 func DoTestAddMessageReactionExtensions(index int, operationID string) {
 	var testAddMessageReactionExtensionsCallBack AddMessageReactionExtensionsCallBack
 	testAddMessageReactionExtensionsCallBack.OperationID = operationID
-	fmt.Printf("DoTestAddMessageReactionExtensions opid:", testAddMessageReactionExtensionsCallBack.OperationID, index)
+	fmt.Println("DoTestAddMessageReactionExtensions opid:", testAddMessageReactionExtensionsCallBack.OperationID, index)
 	var params sdk_params_callback.AddMessageReactionExtensionsParams
 	var data server_api_params.KeyValue
 	data.TypeKey = "x"
@@ -130,7 +130,7 @@ func DoTestAddMessageReactionExtensions(index int, operationID string) {
 func DoTestGetMessageListReactionExtensions(operationID string) {
 	var testGetMessageReactionExtensionsCallBack GetMessageListReactionExtensionsCallBack
 	testGetMessageReactionExtensionsCallBack.OperationID = operationID
-	fmt.Printf("DoTestGetMessageListReactionExtensions opid:", testGetMessageReactionExtensionsCallBack.OperationID)
+	fmt.Println("DoTestGetMessageListReactionExtensions opid:", testGetMessageReactionExtensionsCallBack.OperationID)
 	var ss []sdk_struct.MsgStruct
 	s := sdk_struct.MsgStruct{}
 	s.SessionType = 3
@@ -548,7 +548,7 @@ type MsgListenerCallBak struct {
 }
 
 func (m *MsgListenerCallBak) OnRecvMessageExtensionsAdded(msgID string, reactionExtensionList string) {
-	fmt.Printf("OnRecvMessageExtensionsAdded", msgID, reactionExtensionList)
+	fmt.Println("OnRecvMessageExtensionsAdded", msgID, reactionExtensionList)
 	log.Info("internal", "OnRecvMessageExtensionsAdded ", msgID, reactionExtensionList)
 
 }

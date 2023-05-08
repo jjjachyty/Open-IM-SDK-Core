@@ -52,9 +52,13 @@ const (
 	CustomMsgOnlineOnly             = 120
 	ReactionMessageModifier         = 121
 	ReactionMessageDeleter          = 122
+	Living                          = 123 //直播消息
 
 	//////////////////////////////////////////
 	NotificationBegin       = 1000
+	StartLivingNotification = 10001 //开始直播
+	CloseLivingNotification = 10002 //关闭直播
+
 	FriendNotificationBegin = 1200
 
 	FriendApplicationApprovedNotification = 1201 //add_friend_response
@@ -184,13 +188,15 @@ const (
 	FriendRelationship = 1
 )
 
-//const (
+// const (
+//
 //	ErrCodeInitLogin    = 1001
 //	ErrCodeFriend       = 2001
 //	ErrCodeConversation = 3001
 //	ErrCodeUserInfo     = 4001
 //	ErrCodeGroup        = 5001
-//)
+//
+// )
 const (
 	NormalGroup                       = 0
 	SuperGroup                        = 1
@@ -256,7 +262,7 @@ const (
 const ZoomScale = "200"
 const MaxTotalMsgLen = 51200
 
-//const MaxTotalMsgLen = 20480
+// const MaxTotalMsgLen = 20480
 const (
 	FriendAcceptTip  = "You have successfully become friends, so start chatting"
 	TransferGroupTip = "The owner of the group is transferred!"

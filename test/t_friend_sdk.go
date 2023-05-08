@@ -41,7 +41,7 @@ func (TestSendImg) OnProgress(progress int) {
 
 func TestLog(v ...interface{}) {
 	//X.SetFlags(X.Lshortfile | X.LstdFlags)
-	loggerf.Println(v)
+	loggerf.Printf("%v", v)
 	a, b, c, d := runtime.Caller(1)
 	X.Println(a, b, c, d)
 }
@@ -761,7 +761,7 @@ func InOutDoTestSendMsg(sendId, receiverID string) {
 	m := "test:" + sendId + ":" + receiverID + ":"
 	//s := CreateTextMessage(m)
 	var testSendMsg TestSendMsgCallBack
-	//	testSendMsg.msg = SendMessage(&testSendMsg, s, receiverID, "", false)
+	// testSendMsg.msg = SendMessage(&testSendMsg, s, receiverID, "", false)
 	fmt.Println("func send ", m, testSendMsg.msg)
 	fmt.Println("test to recv : ", receiverID)
 }
