@@ -1,0 +1,1 @@
+$env:GOARCH="amd64" gomobile bind -v -trimpath -ldflags="-s -w" -o ./open_im_sdk.aar -target=android ./open_im_sdk/ ./open_im_sdk_callback/

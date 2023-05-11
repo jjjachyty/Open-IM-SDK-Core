@@ -3,9 +3,19 @@ import "Open-IM-Server/pkg/proto/sdk_ws/wrappers.proto";
 option go_package = "Open_IM/pkg/proto/sdk_ws;server_api_params";
 package server_api_params;
 
-
 ////////////////////////////////base///////////////////////////////
-
+message UserLive{
+  string userID = 1;
+  int64 groupID = 2;
+  int64 startAt = 3;
+  int64 endAt = 4;
+  int64 totalView = 5;
+  int64 currentView = 6;
+  int64 duration = 7;
+  int64 channelID = 8;
+  string channelName=9;
+  int64 createAt = 10;
+}
 
 message GroupInfo{
   string groupID = 1;
@@ -52,7 +62,7 @@ message GroupMemberFullInfo {
   int32 joinSource = 8;
   string operatorUserID = 9;
   string ex = 10;
-  int32 isRobot =11; 
+  int32 isRobot =11;
   uint32 muteEndTime = 12;
   string inviterUserID = 13;
 }
@@ -78,6 +88,7 @@ message UserInfo{
   int32 appMangerLevel = 10;
   int32 globalRecvMsgOpt = 11;
   string birthStr = 12;
+  int64 leftDuration = 13;
 }
 
 message FriendInfo{
@@ -272,6 +283,7 @@ message MsgData {
   bool   isReact = 40;
   bool isExternalExtensions = 41;
   int64 msgFirstModifyTime = 42;
+  string liveID = 43;
 
 }
 message OfflinePushInfo{
