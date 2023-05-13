@@ -603,7 +603,9 @@ func (c *Conversation) SendMessage(callback open_im_sdk_callback.SendMsgCallBack
 		options := make(map[string]bool, 2)
 		lc := &model_struct.LocalConversation{LatestMsgSendTime: s.CreateTime}
 		//根据单聊群聊类型组装消息和会话
-		if recvID == "" {
+		if s.SessionType == int32(constant.LiveChatType) {
+
+		} else if recvID == "" {
 			g, err := c.full.GetGroupInfoByGroupID(groupID)
 			common.CheckAnyErrCallback(callback, 202, err, operationID)
 			lc.ShowName = g.GroupName

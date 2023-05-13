@@ -136,7 +136,7 @@ const (
 	GroupChatType        = 2
 	SuperGroupChatType   = 3
 	NotificationChatType = 4
-
+	LiveChatType         = 5
 	//MsgStatus
 	MsgStatusDefault     = 0
 	MsgStatusSending     = 1
