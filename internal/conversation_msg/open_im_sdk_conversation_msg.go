@@ -595,13 +595,19 @@ func (c *Conversation) SendMessage(callback open_im_sdk_callback.SendMsgCallBack
 		} else {
 			common.JsonUnmarshalAndArgsValidate(offlinePushInfo, &p, callback, operationID)
 		}
-		if recvID == "" && groupID == "" {
-			common.CheckAnyErrCallback(callback, 201, errors.New("recvID && groupID not both null"), operationID)
+		if recvID == "" && groupID == "" && s.LiveID == "" {
+			common.CheckAnyErrCallback(callback, 201, errors.New("recvID && groupID && LiveID not both null"), operationID)
 		}
+
 		var localMessage model_struct.LocalChatLog
 		var conversationID string
 		options := make(map[string]bool, 2)
 		lc := &model_struct.LocalConversation{LatestMsgSendTime: s.CreateTime}
+		if s.ContentType == constant.Living { //直播直接发送消息
+			c.sendLiveMessageToServer(&s, lc, callback, []string{}, p, options, operationID)
+			return
+		}
+
 		//根据单聊群聊类型组装消息和会话
 		if s.SessionType == int32(constant.LiveChatType) {
 
@@ -760,6 +766,7 @@ func (c *Conversation) SendMessage(callback open_im_sdk_callback.SendMsgCallBack
 			default:
 				common.CheckAnyErrCallback(callback, 202, errors.New("contentType not currently supported"+utils.Int32ToString(s.ContentType)), operationID)
 			}
+
 			oldMessage, err := c.db.GetMessageController(&s)
 			if err != nil {
 				log.Warn(operationID, "get message err")
@@ -1108,7 +1115,7 @@ func (c *Conversation) InternalSendMessage(callback open_im_sdk_callback.Base, s
 
 func (c *Conversation) sendMessageToServer(s *sdk_struct.MsgStruct, lc *model_struct.LocalConversation, callback open_im_sdk_callback.SendMsgCallBack,
 	delFile []string, offlinePushInfo *server_api_params.OfflinePushInfo, options map[string]bool, operationID string) {
-	log.Debug(operationID, "sendMessageToServer ", s.ServerMsgID, " ", s.ClientMsgID)
+	log.Debug(operationID, "sendMessageToServer ", "LiveID", s.LiveID, s.ServerMsgID, " ", s.ClientMsgID)
 	//Protocol conversion
 	var wsMsgData server_api_params.MsgData
 	copier.Copy(&wsMsgData, s)
@@ -1153,8 +1160,10 @@ func (c *Conversation) sendMessageToServer(s *sdk_struct.MsgStruct, lc *model_st
 		}
 		log.Debug(operationID, "remove file: ", v)
 	}
-	c.updateMsgStatusAndTriggerConversation(sendMsgResp.ClientMsgID, sendMsgResp.ServerMsgID, sendMsgResp.SendTime, constant.MsgStatusSendSuccess, s, lc, operationID)
 
+	if s.ContentType != constant.Living {
+		c.updateMsgStatusAndTriggerConversation(sendMsgResp.ClientMsgID, sendMsgResp.ServerMsgID, sendMsgResp.SendTime, constant.MsgStatusSendSuccess, s, lc, operationID)
+	}
 }
 
 func (c *Conversation) CreateSoundMessageByURL(soundBaseInfo, operationID string) string {

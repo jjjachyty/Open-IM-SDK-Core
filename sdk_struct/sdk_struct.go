@@ -92,6 +92,7 @@ type MsgStruct struct {
 	SenderNickname       string                            `json:"senderNickname,omitempty"`
 	SenderFaceURL        string                            `json:"senderFaceUrl,omitempty"`
 	GroupID              string                            `json:"groupID,omitempty"`
+	LiveID               string                            `json:"liveID,omitempty"`
 	Content              string                            `json:"content,omitempty"`
 	Seq                  uint32                            `json:"seq"`
 	IsRead               bool                              `json:"isRead"`
