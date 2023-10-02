@@ -21,6 +21,7 @@ const (
 
 	CmdJoinedSuperGroup = "018"
 	CmdUpdateMessage    = "019"
+	CmdLiveMsgCome      = "020"
 
 	CmdMaxSeq  = "maxSeq"
 	CmdPushMsg = "pushMsg"

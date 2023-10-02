@@ -604,7 +604,7 @@ func (c *Conversation) SendMessage(callback open_im_sdk_callback.SendMsgCallBack
 		options := make(map[string]bool, 2)
 		lc := &model_struct.LocalConversation{LatestMsgSendTime: s.CreateTime}
 		if s.ContentType == constant.Living { //直播直接发送消息
-			c.sendLiveMessageToServer(&s, lc, callback, []string{}, p, options, operationID)
+			c.sendMessageToServer(&s, lc, callback, []string{}, p, options, operationID)
 			return
 		}
 

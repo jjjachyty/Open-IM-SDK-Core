@@ -2,7 +2,6 @@ package conversation_msg
 
 import (
 	"encoding/json"
-	"github.com/google/go-cmp/cmp"
 	"open_im_sdk/internal/business"
 	"open_im_sdk/internal/cache"
 	common2 "open_im_sdk/internal/common"
@@ -16,6 +15,8 @@ import (
 	sdk "open_im_sdk/pkg/sdk_params_callback"
 	"runtime"
 	"strings"
+
+	"github.com/google/go-cmp/cmp"
 
 	workMoments "open_im_sdk/internal/work_moments"
 	"open_im_sdk/open_im_sdk_callback"
@@ -116,6 +117,20 @@ func NewConversation(ws *ws.Ws, db db_interface.DataBase, p *ws.PostApi,
 func (c *Conversation) GetCh() chan common.Cmd2Value {
 	return c.recvCH
 }
+
+func (c *Conversation) doLiveNew(c2v common.Cmd2Value) {
+	// operationID := c2v.Value.(sdk_struct.CmdNewMsgComeToConversation).OperationID
+	allMsg := c2v.Value.(sdk_struct.CmdNewMsgComeToConversation).MsgList
+	var newMessages sdk_struct.NewMsgList
+
+	for _, v := range allMsg {
+		msg := new(sdk_struct.MsgStruct)
+		copier.Copy(msg, v)
+		newMessages = append(newMessages, msg)
+
+	}
+	c.newMessage(newMessages)
+}
 func (c *Conversation) doMsgNew(c2v common.Cmd2Value) {
 	operationID := c2v.Value.(sdk_struct.CmdNewMsgComeToConversation).OperationID
 	allMsg := c2v.Value.(sdk_struct.CmdNewMsgComeToConversation).MsgList
@@ -160,7 +175,8 @@ func (c *Conversation) doMsgNew(c2v common.Cmd2Value) {
 	b := time.Now()
 
 	for _, v := range allMsg {
-		log.Info(operationID, "do Msg come here, msg detail ", v.RecvID, v.SendID, v.ClientMsgID, v.ServerMsgID, v.Seq, c.loginUserID)
+		log.Info(operationID, "do Msg come here, msg detail ", "SessionType", v.SessionType, v.RecvID, v.SendID, v.ClientMsgID, v.ServerMsgID, v.Seq, c.loginUserID)
+
 		isHistory = utils.GetSwitchFromOptions(v.Options, constant.IsHistory)
 		isUnreadCount = utils.GetSwitchFromOptions(v.Options, constant.IsUnreadCount)
 		isConversationUpdate = utils.GetSwitchFromOptions(v.Options, constant.IsConversationUpdate)
@@ -169,6 +185,12 @@ func (c *Conversation) doMsgNew(c2v common.Cmd2Value) {
 		isSenderNotificationPush = utils.GetSwitchFromOptions(v.Options, constant.IsSenderNotificationPush)
 		msg := new(sdk_struct.MsgStruct)
 		copier.Copy(msg, v)
+
+		if v.SessionType == constant.LiveChatType { //直播
+			log.NewInfo(">>>>>>>>>>>>>>直播消息", v.LiveID)
+			c.newMessage([]*sdk_struct.MsgStruct{msg})
+			return
+		}
 		if v.OfflinePushInfo != nil {
 			msg.OfflinePush = *v.OfflinePushInfo
 		}
@@ -2074,6 +2096,13 @@ func (c *Conversation) Work(c2v common.Cmd2Value) {
 		log.Info("internal", "CmdDeleteConversation start ..", c2v.Cmd)
 		c.doDeleteConversation(c2v)
 		log.Info("internal", "CmdDeleteConversation end..", c2v.Cmd)
+	// case constant.CmdLiveMsgCome:
+	// 	if c.LoginStatus() == constant.Logout {
+	// 		runtime.Goexit()
+	// 	}
+	// 	log.Info("internal", "doLiveNew start..", c2v.Cmd)
+	// 	c.doLiveNew(c2v)
+	// 	log.Info("internal", "doLiveNew end..", c2v.Cmd)
 	case constant.CmdNewMsgCome:
 		if c.LoginStatus() == constant.Logout {
 			log.Warn("", "m.LoginStatus() == constant.Logout, Goexit()")
